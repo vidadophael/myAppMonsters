@@ -1,0 +1,61 @@
+passo-a-passo:
+
+// no REACT, tudo que será renderizado (componentes) são basicamente funções (quem podem ser classes também) ou seja: tudo que é retornado de uma função, é renderizado na tela como um componente e suas ações.
+
+O 1° passo aqui foi:
+-importar 'Component' de 'react' para que possamos usar a declaração de 'class' ao invés de 'functions'.
+-com isso extendemos a usabilidade da 'class App' para 'Component' e obrigatoriamente precisamos renderizar essa usabilidade usando um método chamado 'render' e centro dele, retornamos que queremos renderizar sempre que a 'class App' for chamada.
+
+Agora, o 2° passo foi substitutir o link por um botão. 
+
+-Toda vez que esse botão for clicado, o nome na tag <p> acima, será alterado para outro nome.
+Usarei o método 'constructor' (disponível nos componentes de classe que importamos anteriormente.).
+Isso quer dizer que, sempre que a classe for resderizada, o constructor será executado primeiro.
+Dentro do 'constructor' vou chamar um outro método 'super(){}', então sempre que super for chamado, ele instanciará o 'constructor' que renderizará a 'class' que o contém.
+-logo abaixo eu vou criar um objeto com um atributo 'name' e um valor para este atributo. Para que ele se torne um objeto local, eu usei o 'this.state = {name: 'nome da pessoa que será construído para ser referenciado e renderizado pela 'class App'.  }
+-para que esse valor do atributo dentro do objeto seja acessado, eu uso {} e referencio esse valor onde eu quiser neste bloco ('class App') pois este valor foi criado localmente quando usei o 'this.state', ou seja, "neste estado(bloco) eu tenho um objeto chamado 'state' e nele eu tenho atributos que podem ser acessados aqui dentro."
+Então a tag <p> pode usar esse valor sendo referenciado assim: "{ this.state.name }", logo, a tag <p> renderiza o valor de 'name' dentro do objeto 'state' que foi criado pelo 'construtor' usando o atributo 'super()'.
+
+- Agora vou mudar o estado:
+
+-a ideia é que, sempre que <button> for clicado, o nome deve ser alterado para outro valor, ou seja, 'this.state.name' deve ter seu valor alterado.
+-Usando um manipulador de eventos eu posso capturar o clique do botão.
+-Para isso eu usarei o 'onClick' para vigiar os cliques do botão. O 'onClick' neste caso espera uma função, ou seja, será disparada uma função sempre que o botão for clicado. A sintaxe é essa: 'onClick{() => {}}' Ess processo é chamado de RE RENDERIZAÇÃO pois algo será atualizado na tela baseado em um estado anterior. Aqui precisamos verificar sobre onde o 'this.state.name' aponta pois neste caso precisamos atribuir um novo valor de uma forma diferente de "this.state.name = 'André'" pois mesmo que aqui o valor tenha sido alterado, 'state.name' ainda aponta para o valor que foi definido anteriormente e ele não será atualizado da forma falei acima.
+-Para resolver esse problema vamos usar uma forma de criar um novo obj para receber um atributo e guardar um novo valor. Usarei o setstate() como uma mesclagem superficial, ou seja, qualquer valor que eu atribuir a ele, será renderizado pois vai substituir o 'state.name', assim: 
+<button 
+  onClick={() => {
+  this.setState({name: 'Guilherme'})
+  }} >Change Name
+</button>
+- Aqui estou setando o valor que tem em 'this.state.name' e dando um novo valor para 'name', isso fará com que o 'React' saiba que aqui ele deve procurar um objeto com o mesmo atributo(chave), atualizá-lo e renderizá-lo novamente com o novo valor.
+-Agora vou resolver um problema: precisamos transformar a coleta de dados do objeto (ao clique do botão) para uma função.
+-Se repararmos, um console.log logo abaixo do callback do botão (onClick), mostra quando clicado uma vez, os dados do objeto antigo, mesmo os dados sendo atualizados na tela, ou seja, ele está sendo chamado depois que o segundo clique acontece e não no primeiro clique, isso que dizer que o console.log se refere ao primeiro dado no objeto e não para o objeto atual (depois do primeiro clique e atualiza). Então vou substituir os cados coletados no 'setState' por uma função(com callback) antes do objeto ser renderizado.
+- 'this.setState(()=> {}, ()=> {});'
+-  o primeiro argumento (função) é a que vai atualizar o objeto, ou seja, uma função que vai ter como retorno a atualização do objeto:
+- this.setState(()=> {
+                return {
+                  name: { firstName: 'Andrei', lastName: 'Neaogie' },
+                }
+              }, ()=> {});
+- desta forma, a atualização acontece normalmente, agora vou resolver o problema do console.log não imprimir a atualização no primeiro clique.
+- é o que o segundo argumento (função) vai fazer.
+<button
+            onClick={() => {
+              this.setState(
+                () => {
+                  return {
+                    name: { firstName: "Andrei", lastName: "Neaogie" },
+                  };
+                },
+                () => {
+                  console.log(this.state);
+                }
+              );
+
+            }}
+          >
+            Change Name
+          </button>
+- basta colocar o 'console.log' como retorno do segundo argumento (função) do callback da função (onclick) :) Desse modo, encapsulei a atualização do componente junto do 'console.log' pra eu ver exatamente sua mudança no console.
+_______________________________________________________________________________
+Agora vou começar a construir a base para o meu projeto 'myAppMonsters'
