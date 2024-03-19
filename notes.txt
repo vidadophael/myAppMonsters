@@ -59,3 +59,28 @@ Então a tag <p> pode usar esse valor sendo referenciado assim: "{ this.state.na
 - basta colocar o 'console.log' como retorno do segundo argumento (função) do callback da função (onclick) :) Desse modo, encapsulei a atualização do componente junto do 'console.log' pra eu ver exatamente sua mudança no console.
 _______________________________________________________________________________
 Agora vou começar a construir a base para o meu projeto 'myAppMonsters'
+-- Primeiro eu criei uma estrutura que faz um teste que recebe nomes de 3 monstros diferentes para simular uma API.
+-- Na renderização, eu criei 3 'h1' e atribui o objeto para cada um deles:
+this.state = {
+      monster1: {
+        name: 'Linda'
+      },
+      monster2: {
+        name: 'Frank'
+      },
+      monster3: {
+        name: 'Jacky'
+      },
+    };
+  }
+  render() {
+    return <div className="App">
+      <h1>{this.state.monster1.name}</h1>
+      <h1>{this.state.monster2.name}</h1>
+      <h1>{this.state.monster3.name}</h1>
+
+    </div>;
+  }
+
+-- Mas a estrutura fica repetitiva pois a ideia é ter muitos objetos e também ter muitos monstros exibidos na tela.
+-- Para resolver isso: 
