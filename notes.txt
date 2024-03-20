@@ -84,3 +84,51 @@ this.state = {
 
 -- Mas a estrutura fica repetitiva pois a ideia é ter muitos objetos e também ter muitos monstros exibidos na tela.
 -- Para resolver isso: 
+- Primeiro eu vou colocar os objetos (monster1, monster2 e monster3) em um array:
+this.state = {
+      monsters: [
+        {
+          name: 'Linda'
+        },
+        {
+          name: 'Frank'
+        },
+        {
+          name: 'Jacky'
+        },
+      ]
+    };
+
+--- Agora preciso acessar esse array e convertê-los em tags <h1>:
+-- Para isso eu vou usar o 'map()' que é um método usado nos arrays.
+-Assim vamos poder acessar os dados do array.
+- Crio as '{}' para que dentro dele eu crio o 'map()' para pegar o que eu quero neste array e criar a tag que vai renderizar na tela.
+  return <div className="App">
+      {
+        this.state.monsters.map()
+      }
+    </div>;
+
+--- Resumindo: Note que, o this.state ainda é uma definição de objeto, dentro dele eu tenho uma chave 'monsters' que leva uma estrutura de array, por isso nós vamos iterar sobre ele para retirar o que precisamos.
+-- O '.map()' vai usar um callback de uma estrutura de arrowfunctions que vai retornar um elemento a cada iteração no array:
+this.state.monsters.map( () => {} )
+-Então aqui dentro eu vou dizer 'state que guarda o array 'monsters', eu vou mapear dentro de vc e pegar o valor que está atribuído a 'nome' e colocar em uma variável 'temporária' chamada 'monster' e a cada vez que eu fizer isso, como estou usando uma função de retorno, você vai me devolver um <h1> com o conteúdo dentro, ou seja, o 'monster.name':
+<div className="App">
+        {
+          this.state.monsters.map((monster) => {
+            return <h1>{monster.name}</h1>
+          })
+        }
+      </div>
+-- Mas, vamos notar no console do navegador que temos um aviso sobre uma 'key' prop.
+- Essa 'key' é uma propriedade para identificar cada elemento de um array ou objeto. Ela é nedessária pois pode haver mais de um nome que são iguais e se forem iguais, o código pode não carregar ele em tela ou carregar todos, depende do escopo e do que o código precisa retornar.
+--Para sanar esse erro eu usei a 'key={}' como uma propriedade da tag <h1>:
+<h1 key={monster.name}>{monster.name}</h1>
+--Mas isso poderia gerar um outro problema, se houver muitos dados, eu tenho que tomar cuidado na hora de declarar esses dados ou na hora que retornar os dados do array ou API, pois são muitos. Por isso eu vou adicionar a esse primeiro teste um identificador para cada objeto dentro deste array para que ele possa ser usado como 'key' e trazer o valor exato no qual ele se refere, pois um identificador não pode se repetir em um conjunto de dados ou em uma API:
+return <h1 key={monster.id}>{monster.name}</h1>
+--Para seguir uma coerência nos dados rendedrizados, vou incluir uma div contendo a 'key' e o 'h1' dentro dele contendo o conteúdo buscado no map:
+return <div key={monster.id}><h1>{monster.name}</h1></div>
+
+
+
+
